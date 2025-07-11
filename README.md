@@ -67,7 +67,7 @@ In particular, the dataset is centered around the delivery day 2025-06-08. Here 
 
 - **Task 7: Data Permissions Framework** - Think about a permissions concept for data and reports.
 
-**Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on just one task that interests you most and do it well. Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. Quality over quantity is what we're looking for.
+**Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on a subset of tasks that deliver some value. Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. Quality over quantity is what we're looking for.
 
 You are also welcome to explore aspects not covered in these tasks or combine elements from different tasks.
 The deliverable is intentionally flexible to give you freedom to explore, but if you need more specific guidance,
