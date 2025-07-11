@@ -46,7 +46,8 @@ The structure is essentially the same, but for simplicity's sake we will conside
 Your goal is to help FlexPower make sense of all this data and perform some key functions of the business.
 
 As a general instruction, data needs to be ingested and persisted so that we can compute relevant
-quantities and display them to the different users and teams.
+quantities and display them to the different users and teams. 
+You can adopt any adequate "frontend" solution, from graph captures to jupyter notebooks and dash or grafana web app. 
 Most data is coming from files that are distributed within directories, but this is rather a simplification.
 In practice, data would come from APIs, SFTP servers, S3 buckets...
 
