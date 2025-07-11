@@ -53,26 +53,19 @@ In practice, data would come from APIs, SFTP servers, S3 buckets...
 
 In particular, the dataset is centered around the delivery day 2025-06-08. Here are the individual tasks you can work on:
 
-**Task 1: Asset and Portfolio Forecasting**
-Compute the latest forecast for each asset and then the latest forecast for the whole portfolio.
+- **Task 1: Asset and Portfolio Forecasting** - Compute the latest forecast for each asset and then the latest forecast for the whole portfolio.
 
-**Task 2: Best-of-Infeed Analysis**
-Compute best-of-infeed on the asset level and then as an aggregation for the whole portfolio.
+- **Task 2: Best-of-Infeed Analysis** - Compute best-of-infeed on the asset level and then as an aggregation for the whole portfolio.
 
-**Task 3: Trading Performance Metrics**
-Compute the trading revenues, number of trades, net traded volume and VWAP.
+- **Task 3: Trading Performance Metrics** - Compute the trading revenues, number of trades, net traded volume and VWAP.
 
-**Task 4: Imbalance Cost Analysis**
-Compute the imbalance cost for each asset and for the total portfolio.
+- **Task 4: Imbalance Cost Analysis** - Compute the imbalance cost for each asset and for the total portfolio.
 
-**Task 5: Invoice Generation**
-Compute invoices for each asset.
+- **Task 5: Invoice Generation** - Compute invoices for each asset.
 
-**Task 6: Performance Reporting**
-Create a report that helps FlexPower understand the performance of its portfolio and each single asset.
+- **Task 6: Performance Reporting** - Create a report that helps FlexPower understand the performance of its portfolio and each single asset.
 
-**Task 7: Data Permissions Framework**
-Think about a permissions concept for data and reports.
+- **Task 7: Data Permissions Framework** - Think about a permissions concept for data and reports.
 
 **Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on just one task that interests you most and do it well. Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. Quality over quantity is what we're looking for.
 
