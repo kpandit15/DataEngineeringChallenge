@@ -41,223 +41,6 @@ PS: FlexPower also provides supply customers with energy (so assets consuming en
 stations).
 The structure is essentially the same, but for simplicity's sake we will consider only production in this challenge.
 
-## Assets "base" data
-
-With base data we usually mean static attributes of assets. These can be **technical** or **contractual**.
-We call all assets traded by FlexPower the **portfolio**.
-
-### Technical data
-
-Anything that describes the technical aspects of the asset, for example, total capacity, exact location (coordinates)
-and some properties that are specific to the asset type, for example, solar or wind. This data is usually used to
-compute production forecasts for these assets.\
-For this challenge, we will restrict ourselves to wind and solar assets, but in general there are more
-types (biogas, hydro, batteries...) with their own specific technical data.
-
-The technical data can be downloaded from the vpp (virtual power plant). The file name contains the timestamp
-at which the file was created. A new file is produced daily between 12:30 and 13:00.
-
-### Contractual data
-
-Each asset is assigned to a contract with a customer.
-Contractual data determines how assets are to be invoiced and is kept in the CRM.
-
-The data is a csv and contains the following attributes:
-
-- contract_id: a unique alphanumerical identifier for the contract.
-- asset_id: a unique alphanumerical identifier for the asset.
-- metering_point_id: a unique alphanumerical identifier for the asset's metering point.
-- capacity: the installed capacity of the asset, in MW.
-- technology: the technology used by the asset, can be either "solar" or "wind".
-- contract_begin: the date when the asset's contract with FlexPower began.
-- contract_end: the date when the asset's contract with FlexPower ends, can be none.
-- price_model: the pricing model used by the asset, can be either "fixed" or "market".
-- price: the price paid by FlexPower to the asset owner, in €/MWh, if asset in the "fixed" price model.
-- fee_model: the fee model used by the asset, can be either "fixed_as_produced", "fixed_for_capacity" or "
-  percent_of_market".
-- fee: the fee paid by the asset owner to FlexPower, in €/MWh, if asset in the "fixed" fee model.
-- fee_percent: percentage of the market value paid by the asset owner to FlexPower per MWh, in %, if asset in the
-  "percent_of_market" fee model.
-
-A new file is created every week, on Sunday, between 04:30 and 05:00.
-The portfolio operations team might create new files on demand if some urgent changes need to be ingested.
-
-## Infeed(s)
-
-Given how the RouteToMarket product functions, infeed data plays a central role in our system.
-There are different types of infeed data, with different functions and degrees of trustworthiness.
-
-### Forecasts:
-
-For each asset, FlexPower forecasts the electricity production for 15-minute delivery intervals,
-representing the average power expected to be produced by the asset over a quarter-hour, in kilowatt (kW).\
-This forecast is updated every 15 minutes and allows FlexPower to know how much electricity will be available to sell
-on the markets for a quarter-hour in the future. The latest forecast for each quarter-hour is calculated at the start
-of each 15-minute delivery range, but the latest "tradeable" forecast for each asset is produced 15 minutes before
-delivery start (due to trading gate closures).\
-For example, the latest forecast for the delivery start `2025-06-08T12:00:00Z` has the version `2025-06-08T12:00:00Z`
-but the latest tradeable forecast has the version `2025-06-08T11:45:00Z`.\
-To query the forecasts, use the following code snippet:
-```python
-from src.vpp.client import get_forecast
-import pendulum
-
-f = get_forecast(
-    asset_id="WND-DE-003",
-    version=pendulum.datetime(2025, 6, 8, 8, 15, tz="Europe/Berlin"),
-)
-```
-
-### Live measured infeed:
-
-In most cases, the vpp provides a live measurement of the energy produced by single assets.
-These measurements are available almost instantly, and the production, measured in kilowatt, has an irregular
-resolution.
-
-### Final-measured infeed
-
-Each asset is connected to the electricity grid through a so-called "metering point".
-The production measured at this point is communicated to FlexPower by the Distribution System Operator (DSO).
-The data is available, in most cases, every day with values for the previous day.
-The values here are used to invoice the asset owner, and we get data for all assets at once, in a csv file.
-The unit is kilowatt.
-
-### Redispatch
-
-If too much energy is being produced by renewables within a certain area, the DSO might decide to turn off some assets.
-Some of these assets might happen to be in our portfolio.
-
-In that case we would receive a file containing a boolean timeseries that indicates if an asset was turned off.
-If no file was received, we assume that the asset was running normally.
-
-### Best-of-infeed
-
-As we have shown above, there are multiple sources of infeed data. We want to define a quantity that represents
-our best guess, at any moment in time, for the production of an asset.
-The formula is as follows:
-
-- the best source is the final measured production, as it is the legally binding volume used for invoicing.
-- the second-best source is live-measured infeed, if available
-- if none of the above is available, we can take the latest forecast to date. Even better would be including the
-  redispatch flag so that production for quarter hours when redispatch was called is set to 0.
-
-## Trading
-
-### Energy Trading in a Nutshell
-
-Energy trading happens in an exchange, a market where traders working for energy producers (solar plants,
-nuclear power plants, ...) and consumers (B2C energy providers, big energy-consuming industries
-like steel and trains...) submit orders to buy and sell energy.
-One of the major exchanges in Europe is called [EPEX](https://en.wikipedia.org/wiki/European_Power_Exchange).
-
-These orders consist of a volume (in Megawatt, rounded to one decimal) over a predefined period of time,
-called delivery period (for example between 12:00, the delivery start and 13:00, the delivery end, on a given day)
-and for a given price per megawatt hour (referred to as mwh).
-If the prices of two orders with opposite sides match, i.e., the buy price is higher than the sell price, then, a trade
-is generated.
-For example, if the orderbook contains an order to sell 10 mw for 10 euros/mwh and another trader submits
-an order to buy 5 mw for 11 euros/mwh, the orders are matched by the exchange and a trade is generated for 5 mw at
-10 euros/mwh.
-
-### Trades (or private trades)
-
-A list of trades that our trading floor executed is provided by the exchange as a JSON.
-Volumes are in megawatt, and prices are in euro per mwh.\
-A trade also has a delivery start and a delivery end, defining the time range for which the volume was traded.
-This range can either span an hour or a quarter-hour, but an hourly trade could also be seen as four quarter-hourly
-trades. For example,
-
-```
-side=SELL volume=10.0 MW price=10.0 Euro delivery_start=2025-06-01 01:00:00 delivery_end=2025-06-01 02:00:00
-```
-
-is equivalent to
-
-```
-side=SELL volume=10.0 MW price=10.0 Euro delivery_start=2025-06-01 01:00:00 delivery_end=2025-06-01 01:15:00
-side=SELL volume=10.0 MW price=10.0 Euro delivery_start=2025-06-01 01:15:00 delivery_end=2025-06-01 01:30:00
-side=SELL volume=10.0 MW price=10.0 Euro delivery_start=2025-06-01 01:30:00 delivery_end=2025-06-01 01:45:00
-side=SELL volume=10.0 MW price=10.0 Euro delivery_start=2025-06-01 01:45:00 delivery_end=2025-06-01 02:00:00
-```
-
-In real life, trades come in continuously, as they happen, through, for example, a websocket connection. To simplify
-for this challenge, we will only look at an end-of-day file downloaded from the trading system.
-
-### Revenue and PnL
-
-The trading revenues are calculated by multiplying the volume with the price over all trades: for a buy trade,
-the revenue is negative, for a sell trade, the revenue is positive.
-The pnl is defined as the difference between the income made selling energy and the cost made buying it for a given
-quarter-hour.
-If we sell energy, our income is `quantity * price` since we got money for our electricity.
-If we buy energy, our income is `-quantity * price`.
-The PnL timeseries has a quarter-hourly resolution and for each quarter-hour, we add up the revenue for all trades for
-which the delivery range contains the quarter-hourly timestamp.
-For example, to compute the PnL for the timestamp `2025-06-01T10:15:00Z`, we consider (quarter-hourly) trades having
-the delivery range `2025-06-01T10:15:00Z` to `2025-06-01T10:30:00Z` and (hourly) trades having the delivery range
-`2025-06-01T10:00:00Z` to `2025-06-01T11:00:00Z`.
-
-### Public Trades
-
-The exchange also provides list of trades that were executed by all exchange participants, also called **public trades
-**.
-As for private trades, public trades would also be coming in continuously through a websocket connection but for this
-challenge we are only looking at an end-of-day export, provided by the exchange as a csv file.
-
-### VWAPs
-
-Given a list of trades (public or private), we can define a **volume weighted average price** (also called VWAP)
-quarter-hourly timeseries, as the sum of the revenue divided by the buy plus sell volume.\
-For example, to compute the VWAP for the timestamp `2025-06-01T10:15:00Z`, we consider (quarter-hourly) trades having
-the delivery range `2025-06-01T10:15:00Z` to `2025-06-01T10:30:00Z` and (hourly) trades having the delivery range
-`2025-06-01T10:00:00Z` to `2025-06-01T11:00:00Z`.
-
-We can calculate this quantity based on the private trades and it can be understood as a measure of the performance of
-our trading if we compare it to the VWAP computed based on the public trades.
-This is one example of a market **index** that can be built, but there are many more that give the traders insights on
-price movements and feedback on their trading decisions.
-
-## Invoicing
-
-In the invoices we send out to the customers, we need to compute the following entries:
-
-- **infeed payout**: multiplying the production of the asset by the price we agreed upon with the asset owner,
-  depending on the price model.
-  For the **fixed** pricing model, we just multiply the total produced volume with the price from the base data.
-  This is a more "conservative" pricing model.
-  For the **market** pricing model, we multiply the production of the asset, for each quarter-hour, with the market
-  VWAP (VWAP computed with public trades).
-  This is a price model that is more sensitive to the market price fluctuations and can yield a better payout if the
-  asset is producing at times when the price on the market is high.
-- **fees**: multiplying the production of the asset by the fee we agreed upon with the asset owner, depending on the fee
-  model.
-  For the **fixed_as_produced** fee model, we multiply the total produced volume with the fee from the base data.
-  For the **fixed_for_capacity** fee model, we multiply the installed capacity of the asset with the fee from the base
-  data.
-  For the **percent_of_market** fee model, we multiply the total produced volume of the asset with the market VWAP and
-  the fee percent from the base data.
-  For each of these entries we also compute the unitary net amount, the VAT (at a rate of 19%) and the total gross
-  amount.
-- **redispatch payout**: We have to compensate customers for the redispatched volumes,
-  as it was not "their fault" that their asset was turned off.
-  The compensation is calculated by multiplying the latest forecasted volume for the redispatched asset with the
-  compensation price provided by the DSO. Later on, FlexPower would claim this amount from the DSO by sending them
-  an invoice.
-
-## Imbalance
-
-The electricity grid functions properly only when the production and consumption are balanced at all times, and
-there are financial incentives to achieve that.
-
-If our forecasted production is different from the measured production (higher or lower),
-we have an imbalance volume. For that we have to pay a penalty.
-The imbalance penalty is calculated in euro per megawatt-hour, we can then compute the imbalance cost for each asset
-in our portfolio.
-The dataset contains an estimated imbalance price and a final imbalance price. The imbalance penalty is computed using
-the actual price if available, otherwise using the estimate.
-For simplification, we provide the actual and estimated data as an end-of-day csv file. Some of the attributes in the
-files are in German, as it is, in both cases, official data from the German regulator.
-
 ## The challenge
 
 Your goal is to help FlexPower make sense of all this data and perform some key functions of the business.
@@ -282,6 +65,33 @@ This is rather a list to guide you through some interesting steps. There is no n
 You are more than welcome to explore aspects that are not in this list.
 In other words, the deliverable is left vague on purpose to give the freedom to explore, but if more guidance is needed,
 we can provide more specific ways to tackle the problem.
+
+## Data Overview
+
+### Assets "base" data
+With base data we usually mean static attributes of assets. These can be **technical** or **contractual**.
+We call all assets traded by FlexPower the **portfolio**.
+
+- **Technical data**: Asset specifications and properties → [Virtual Power Plant Documentation](src/vpp/README.md)
+- **Contractual data**: Contract details and pricing models → [Customer Relationship Management Documentation](src/crm/README.md)
+
+### Production Data
+Given how the RouteToMarket product functions, infeed data plays a central role in our system.
+
+- **Forecasts & Live measurements**: Production forecasts and real-time data → [Virtual Power Plant Documentation](src/vpp/README.md)
+- **Final measurements & Redispatch**: Official production data and grid interventions → [Distribution System Operator Documentation](src/distribution_system_operator/README.md)
+
+### Trading Data
+Energy trading data from exchanges and internal trading activities.
+
+- **Private & Public trades, VWAPs**: Trading execution and market data → [Exchange Documentation](src/exchange/README.md)
+
+### Financial Data
+
+- **Invoicing**: Customer billing processes and calculations → [Invoicing Documentation](invoicing.md)
+
+- **Imbalance**: Grid balancing penalties and costs → [Imbalance Documentation](src/imbalance/README.md)
+
 
 ## Submission Instructions
 
