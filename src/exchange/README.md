@@ -9,17 +9,17 @@ One of the major exchanges in Europe is called [EPEX](https://en.wikipedia.org/w
 
 These orders consist of a volume (in Megawatt, rounded to one decimal) over a predefined period of time,
 called delivery period (for example between 12:00, the delivery start and 13:00, the delivery end, on a given day)
-and for a given price per megawatt hour (referred to as mwh).
+and for a given price per megawatt hour (referred to as MWh).
 If the prices of two orders with opposite sides match, i.e., the buy price is higher than the sell price, then, a trade
 is generated.
-For example, if the orderbook contains an order to sell 10 mw for 10 euros/mwh and another trader submits
-an order to buy 5 mw for 11 euros/mwh, the orders are matched by the exchange and a trade is generated for 5 mw at
-10 euros/mwh.
+For example, if the orderbook contains an order to sell 10 MW for 10 euros/MWh and another trader submits
+an order to buy 5 MW for 11 euros/MWh, the orders are matched by the exchange and a trade is generated for 5 MW at
+10 euros/MWh.
 
 ## Trades (or private trades)
 
 A list of trades that our trading floor executed is provided by the exchange as a JSON.
-Volumes are in megawatt, and prices are in euro per mwh.\
+Volumes are in megawatt, and prices are in euro per MWh.
 A trade also has a delivery start and a delivery end, defining the time range for which the volume was traded.
 This range can either span an hour or a quarter-hour, but an hourly trade could also be seen as four quarter-hourly
 trades. For example,
@@ -56,15 +56,14 @@ the delivery range `2025-06-01T10:15:00Z` to `2025-06-01T10:30:00Z` and (hourly)
 
 ## Public Trades
 
-The exchange also provides list of trades that were executed by all exchange participants, also called **public trades
-**.
+The exchange also provides a list of trades that were executed by all exchange participants, also called **public trades**.
 As for private trades, public trades would also be coming in continuously through a websocket connection but for this
 challenge we are only looking at an end-of-day export, provided by the exchange as a csv file.
 
 ## VWAPs
 
 Given a list of trades (public or private), we can define a **volume weighted average price** (also called VWAP)
-quarter-hourly timeseries, as the sum of the revenue divided by the buy plus sell volume.\
+quarter-hourly timeseries, as the sum of the revenue divided by the buy plus sell volume.
 For example, to compute the VWAP for the timestamp `2025-06-01T10:15:00Z`, we consider (quarter-hourly) trades having
 the delivery range `2025-06-01T10:15:00Z` to `2025-06-01T10:30:00Z` and (hourly) trades having the delivery range
 `2025-06-01T10:00:00Z` to `2025-06-01T11:00:00Z`.

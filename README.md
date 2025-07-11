@@ -117,8 +117,8 @@ Energy trading data from exchanges and internal trading activities.
   or similar to our challenge.
 
 ## A small comment on units
-- volumes can be in megawatt (or MW, i.e. power) or megawatt-hour (or mwh, i.e. energy)
-- converting from mw to mwh depends on the delivery range: if the delivery range is hourly, then the multiplication factor is 1, otherwise it is quarter-hourly, then the multiplication factor is 0.25, i.e.
+- volumes can be in megawatt (or MW, i.e. power) or megawatt-hour (or MWh, i.e. energy)
+- converting from MW to MWh depends on the delivery range: if the delivery range is hourly, then the multiplication factor is 1, otherwise it is quarter-hourly, then the multiplication factor is 0.25, i.e.
 ```python
 volume_mwh = volume_mw * 0.25
 ```
