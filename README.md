@@ -50,21 +50,34 @@ quantities and display them to the different users and teams.
 Most data is coming from files that are distributed within directories, but this is rather a simplification.
 In practice, data would come from APIs, SFTP servers, S3 buckets...
 
-In particular, the dataset is centered around the delivery day 2025-06-08. Here is a list of aggregates that could be
-built and visualized:
+In particular, the dataset is centered around the delivery day 2025-06-08. Here are the individual tasks you can work on:
 
-- compute the latest forecast for each asset and then the latest forecast for the whole portfolio.
-- compute best-of-infeed on the asset level and then as an aggregation for the whole portfolio.
-- compute the trading revenues, number of trades, net traded volume and VWAP.
-- compute the imbalance cost for each asset and for the total portfolio.
-- compute invoices for each asset.
-- create a report that helps FlexPower understand the performance of its portfolio and each single asset.
-- think about a permissions concept for data and reports.
+**Task 1: Asset and Portfolio Forecasting**
+Compute the latest forecast for each asset and then the latest forecast for the whole portfolio.
 
-This is rather a list to guide you through some interesting steps. There is no need to do all items in the list.
-You are more than welcome to explore aspects that are not in this list.
-In other words, the deliverable is left vague on purpose to give the freedom to explore, but if more guidance is needed,
-we can provide more specific ways to tackle the problem.
+**Task 2: Best-of-Infeed Analysis**
+Compute best-of-infeed on the asset level and then as an aggregation for the whole portfolio.
+
+**Task 3: Trading Performance Metrics**
+Compute the trading revenues, number of trades, net traded volume and VWAP.
+
+**Task 4: Imbalance Cost Analysis**
+Compute the imbalance cost for each asset and for the total portfolio.
+
+**Task 5: Invoice Generation**
+Compute invoices for each asset.
+
+**Task 6: Performance Reporting**
+Create a report that helps FlexPower understand the performance of its portfolio and each single asset.
+
+**Task 7: Data Permissions Framework**
+Think about a permissions concept for data and reports.
+
+**Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on just one task that interests you most and do it well. Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. Quality over quantity is what we're looking for.
+
+You are also welcome to explore aspects not covered in these tasks or combine elements from different tasks.
+The deliverable is intentionally flexible to give you freedom to explore, but if you need more specific guidance,
+we can provide more detailed approaches to tackle any particular task.
 
 ## Data Overview
 
