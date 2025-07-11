@@ -14,8 +14,7 @@ The data is a csv and contains the following attributes:
 - contract_end: the date when the asset's contract with FlexPower ends, can be none.
 - price_model: the pricing model used by the asset, can be either "fixed" or "market".
 - price: the price paid by FlexPower to the asset owner, in €/MWh, if asset in the "fixed" price model.
-- fee_model: the fee model used by the asset, can be either "fixed_as_produced", "fixed_for_capacity" or "
-  percent_of_market".
+- fee_model: the fee model used by the asset, can be either "fixed_as_produced", "fixed_for_capacity", or "percent_of_market".
 - fee: the fee paid by the asset owner to FlexPower, in €/MWh, if asset in the "fixed" fee model.
 - fee_percent: percentage of the market value paid by the asset owner to FlexPower per MWh, in %, if asset in the
   "percent_of_market" fee model.
