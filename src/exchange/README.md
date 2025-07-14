@@ -1,4 +1,4 @@
-# Trading
+# Exchange
 
 ## Energy Trading in a Nutshell
 

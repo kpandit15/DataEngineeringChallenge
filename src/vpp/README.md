@@ -1,4 +1,10 @@
-# Technical data
+# Virtual Power Plant (VPP)
+
+A Virtual Power Plant (VPP) is a cloud-based system that aggregates the capacities of distributed energy resources 
+such as solar panels, wind turbines, battery storage, electric and operates them as a single, flexible power plant.\
+In our example it manages technical data of our assets and produces infeed data needed for other functionalities.
+
+## Technical data
 
 Anything that describes the technical aspects of the asset, for example, total capacity, exact location (coordinates)
 and some properties that are specific to the asset type, for example, solar or wind. This data is usually used to
@@ -9,7 +15,9 @@ types (biogas, hydro, batteries...) with their own specific technical data.
 The technical data can be downloaded from the vpp (virtual power plant). The file name contains the timestamp
 at which the file was created. A new file is produced daily between 12:30 and 13:00.
 
-## Forecasts:
+## Infeeds
+
+### Forecasts:
 
 For each asset, FlexPower forecasts the electricity production for 15-minute delivery intervals,
 representing the average power expected to be produced by the asset over a quarter-hour, in kilowatt.
@@ -31,7 +39,7 @@ f = get_forecast(
 )
 ```
 
-## Live measured infeed:
+### Live measured infeed:
 
 In most cases, the vpp provides a live measurement of the energy produced by single assets.
 These measurements are available almost instantly, and the production, measured in kilowatt, has an irregular
