@@ -17,7 +17,12 @@ the DSO might decide to turn off some assets.
 Some of these assets might happen to be in our portfolio.
 
 In that case we would receive a file containing a boolean timeseries that indicates if an asset was turned off.
-If no file was received, we assume that the asset was producing normally.
+If no file was received, we assume that the asset was producing normally.\
+Here is an example of a redispatch case:
+<div style="display: flex; justify-content: center;">
+  <img src="img.png" alt="FlexPower">
+</div>
+
 
 ## Best-of-infeed
 

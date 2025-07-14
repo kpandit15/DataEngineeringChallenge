@@ -43,4 +43,8 @@ f = get_forecast(
 
 In most cases, the vpp provides a live measurement of the energy produced by single assets.
 These measurements are available almost instantly, and the production, measured in kilowatt, has an irregular
-resolution.
+resolution.\
+Here is an example of latest forecast and live measured infeed for an asset:
+<div style="display: flex; justify-content: center;">
+  <img src="img.png" alt="FlexPower">
+</div>
