@@ -1,55 +1,51 @@
 # DataEngineeringChallenge @ CFP FlexPower
 
+<div style="display: flex; justify-content: center;">
+  <img src="img.png" alt="FlexPower">
+</div>
+
+
+
 ## Background
 
 At FlexPower, engineers:
-
 - design, build and run reliable serverless systems.
 - collaborate closely with traders, sales and operations to build internal tools that help the company get the best outcomes
   on the markets, thus making renewables more profitable.
-- work with market and asset data to generate insights and data-driven trading decisions.
+- work with market and asset data to generate insights and data-driven trading decisions.\
 
 This challenge is meant to give you a taste of the type of problems our engineering team has to solve with regard to
-data.
-It should help you decide if you might have fun working with us.
-
+data. It should help you decide if you might have fun working with us.\
 It is also an opportunity to demonstrate your technical skills and the ability to understand and work with our domain.
 
 ## Intro
 
-One of FlexPower's main products is the so-called **RouteToMarket**: bringing the energy produced by renewable
-assets to the European electricity markets.
+One of FlexPower's main products is the so-called **[RouteToMarket](https://flex-power.energy/services/renewables-trading/)**: 
+bringing the energy produced by renewable assets to the European electricity markets.\
+
 FlexPower signs contracts with renewable asset owners, and then sells the energy produced by
-these assets on the electricity market, hopefully profitably thanks to its trading expertise.
-
-At the end of each month, FlexPower invoices the asset owners based on the production of their assets:
-FlexPower pays the asset owner an agreed-upon price for each produced MWh, and the asset owner pays FlexPower
-a fee for the services provided, per MWh.
-There are different pricing and fee models, i.e., ways to compute the price and fee, to accommodate different
-types of assets and customers.
-
-FlexPower also has to monitor the performance of its trading activities while the trading is happening, so that
+these assets on the electricity market, hopefully profitably thanks to its trading expertise.\
+FlexPower has to monitor the performance of its trading activities while the trading is happening, so that
 the trading desk can make informed data-driven decisions.
 
 In this challenge, we will look at different aspects of marketing renewables and present different data
-entities involved.
-
+entities involved.\
 The goal will be to compute different financial flows and present them in a way that helps stakeholders
 understand the performance of the portfolio and of single assets.
 
-PS: FlexPower also provides supply customers with energy (so assets consuming energy, for example, EV charging
-stations).
-The structure is essentially the same, but for simplicity's sake we will consider only production in this challenge.
+**PS:** FlexPower also provides supply customers with energy (so assets consuming energy, for example, EV charging
+stations). The structure is essentially the same, but for simplicity's sake we will consider only production 
+in this challenge.
 
 ## The challenge
 
-Your goal is to help FlexPower make sense of all this data and perform some key functions of the business.
-
+Your goal is to help FlexPower make sense of all this data and perform some key functions of the business.\
 As a general instruction, data needs to be ingested and persisted so that we can compute relevant
 quantities and display them to the different users and teams. 
-You can adopt any adequate "frontend" solution, from graph captures to jupyter notebooks and dash or grafana web app. 
-Most data is coming from files that are distributed within directoriesM, but this is rather a simplification.
-In practice, data would come from APIs, SFTP servers, S3 buckets...
+You can adopt any adequate "frontend" solution, from graph captures to jupyter notebooks and dash or grafana web app.\
+Most data is coming from files that are distributed within directories, but this is rather a simplification.
+In practice, data would come from APIs, SFTP servers, S3 buckets... Also, this challenge doesn't account for any form 
+of authentication or rate limitation that we might face in practice.
 
 In particular, the dataset is centered around the delivery day 2025-06-08. Here are the individual tasks you can work on:
 
@@ -67,11 +63,14 @@ In particular, the dataset is centered around the delivery day 2025-06-08. Here 
 
 - **Task 7: Data Permissions Framework** - Think about a permissions concept for data and reports.
 
-**Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on a subset of tasks that deliver some value. Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. Quality over quantity is what we're looking for.
+**Important**: **We do NOT expect you to complete all tasks!** Feel free to focus on a subset of tasks that deliver 
+some value or some of the business features that we mention.\
+Whether you enjoy building data integrations or diving into analytics engineering, go with what excites you. 
+Quality over quantity is what we're looking for.
 
 You are also welcome to explore aspects not covered in these tasks or combine elements from different tasks.
 The deliverable is intentionally flexible to give you freedom to explore, but if you need more specific guidance,
-we can provide more detailed approaches to tackle any particular task.
+we can provide more detailed approaches to tackle any particular task. Please reach out to us and ask for some help.
 
 ## Data Overview
 
@@ -95,7 +94,7 @@ Energy trading data from exchanges and internal trading activities.
 
 ### Financial Data
 
-- **Invoicing**: Customer billing processes and calculations → [Invoicing Documentation](invoicing/invoicing.md)
+- **Invoicing**: Customer billing processes and calculations → [Invoicing Documentation](src/invoicing/invoicing.md)
 
 - **Imbalance**: Grid balancing penalties and costs → [Imbalance Documentation](src/imbalance/README.md)
 
