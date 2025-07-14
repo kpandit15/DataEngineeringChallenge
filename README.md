@@ -12,7 +12,7 @@ At FlexPower, engineers:
 - design, build and run reliable serverless systems.
 - collaborate closely with traders, sales and operations to build internal tools that help the company get the best outcomes
   on the markets, thus making renewables more profitable.
-- work with market and asset data to generate insights and data-driven trading decisions.\
+- work with market and asset data to generate insights and data-driven trading decisions.
 
 This challenge is meant to give you a taste of the type of problems our engineering team has to solve with regard to
 data. It should help you decide if you might have fun working with us.\
@@ -21,7 +21,7 @@ It is also an opportunity to demonstrate your technical skills and the ability t
 ## Intro
 
 One of FlexPower's main products is the so-called **[RouteToMarket](https://flex-power.energy/services/renewables-trading/)**: 
-bringing the energy produced by renewable assets to the European electricity markets.\
+bringing the energy produced by renewable assets to the European electricity markets.
 
 FlexPower signs contracts with renewable asset owners, and then sells the energy produced by
 these assets on the electricity market, hopefully profitably thanks to its trading expertise.\
