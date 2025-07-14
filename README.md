@@ -5,7 +5,7 @@
 At FlexPower, engineers:
 
 - design, build and run reliable serverless systems.
-- collaborate closely with traders and operations to build internal tools that help the company get the best outcomes
+- collaborate closely with traders, sales and operations to build internal tools that help the company get the best outcomes
   on the markets, thus making renewables more profitable.
 - work with market and asset data to generate insights and data-driven trading decisions.
 
@@ -48,7 +48,7 @@ Your goal is to help FlexPower make sense of all this data and perform some key 
 As a general instruction, data needs to be ingested and persisted so that we can compute relevant
 quantities and display them to the different users and teams. 
 You can adopt any adequate "frontend" solution, from graph captures to jupyter notebooks and dash or grafana web app. 
-Most data is coming from files that are distributed within directories, but this is rather a simplification.
+Most data is coming from files that are distributed within directoriesM, but this is rather a simplification.
 In practice, data would come from APIs, SFTP servers, S3 buckets...
 
 In particular, the dataset is centered around the delivery day 2025-06-08. Here are the individual tasks you can work on:
@@ -95,7 +95,7 @@ Energy trading data from exchanges and internal trading activities.
 
 ### Financial Data
 
-- **Invoicing**: Customer billing processes and calculations → [Invoicing Documentation](invoicing.md)
+- **Invoicing**: Customer billing processes and calculations → [Invoicing Documentation](invoicing/invoicing.md)
 
 - **Imbalance**: Grid balancing penalties and costs → [Imbalance Documentation](src/imbalance/README.md)
 

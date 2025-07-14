@@ -24,3 +24,8 @@ In the invoices we send out to the customers, we need to compute the following e
   The compensation is calculated by multiplying the latest forecasted volume for the redispatched asset with the
   compensation price provided by the DSO. Later on, FlexPower would claim this amount from the DSO by sending them
   an invoice.
+
+An invoice is identified with the invoicing month, the corresponding contract id. \
+As some data involved in calculating the invoice could evolve over time, there is also a notion of versioning
+for invoices. For the sake of this challenge, we will assume that the data we have when we compute the invoice is 
+final and binding and there is only one version for each invoice.

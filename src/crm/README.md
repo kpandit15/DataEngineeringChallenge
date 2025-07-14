@@ -1,6 +1,8 @@
 # Contractual data
 
-Each asset is assigned to a contract with a customer.
+Each asset is assigned to a contract with a customer.\ 
+For simplification in this challenge we will assume that a contract can only be assigned to one asset and that a 
+customer can sign only one contract with FlexPower
 Contractual data determines how assets are to be invoiced and is kept in the CRM.
 
 The data is a csv and contains the following attributes:
@@ -18,6 +20,7 @@ The data is a csv and contains the following attributes:
 - fee: the fee paid by the asset owner to FlexPower, in €/MWh, if asset in the "fixed" fee model.
 - fee_percent: percentage of the market value paid by the asset owner to FlexPower per MWh, in %, if asset in the
   "percent_of_market" fee model.
+- email: email of the customer on which we send the invoice
 
 A new file is created every week, on Sunday, between 04:30 and 05:00.
 The portfolio operations team might create new files on demand if some urgent changes need to be ingested.
