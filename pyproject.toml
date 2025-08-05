@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flexpower-data-engineering-challenge"
+version = "0.1.0"
+description = "FlexPower Data Engineering Challenge - RouteToMarket data analysis and portfolio management"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE.md"}
+authors = [
+    { name = "FlexPower Engineering Team" }
+]
+keywords = [
+    "energy",
+    "trading",
+    "renewable",
+    "data-engineering",
+    "portfolio-management"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "matplotlib>=3.10.5",
+    "pandas>=2.3.1",
+    "pendulum==3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+    "pre-commit==4.0.1",
+    "ruff==0.6.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[project.urls]
+Homepage = "https://github.com/kpandit15/DataEngineeringChallenge"
+Repository = "https://github.com/kpandit15/DataEngineeringChallenge"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I", "N", "UP", "S", "A", "C4", "PT", "SIM"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest==8.3.3",
+    "pre-commit==4.0.1", 
+    "ruff==0.6.9",
+]

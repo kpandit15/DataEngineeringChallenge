@@ -4,7 +4,7 @@ At the end of each month, FlexPower invoices the asset owners based on the produ
 FlexPower pays the asset owner an agreed-upon price for each produced MWh, and the asset owner pays FlexPower
 a fee for the services provided, per MWh. \
 There are different pricing and fee models, i.e., ways to compute the price and fee, to accommodate different
-types of assets and customers.\
+types of assets and customers.
 
 In the invoices we send out to the customers, we need to compute the following entries:
 
