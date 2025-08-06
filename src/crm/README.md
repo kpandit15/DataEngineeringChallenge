@@ -1,6 +1,6 @@
 # Contractual data
 
-Each asset is assigned to a contract with a customer.\ 
+Each asset is assigned to a contract with a customer. 
 For simplification in this challenge we will assume that a contract can only be assigned to one asset and that a 
 customer can sign only one contract with FlexPower
 Contractual data determines how assets are to be invoiced and is kept in the CRM.
